@@ -1,0 +1,11 @@
+## These variables are needed for the output files and for the naming of graphs.
+## Please set these variables to their appropiate values.
+
+#G95 Compiler
+COMPILER="g95"
+FC="g95"
+FFLAGS="-cpp -fno-second-underscore -DNO_LOCK_SUPPORT "
+LAUNCHER=""
+EXEC_OPTIONS=" --g95 images=${NPROCS}"
+
+COMPILE_CMD="${FC} ${FFLAGS} ${FFLAGS_BENCH_DEFS} "

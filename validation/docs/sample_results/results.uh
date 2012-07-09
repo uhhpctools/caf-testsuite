@@ -1,0 +1,46 @@
+
+-------------------- CAF FEATURE TESTS ----------------------
+Evaluating uhcaf
+SPEC_IDX            	DESCRIPTION                                                           	COMPILATION	EXECUTION
+
+character_test      	CHARACTER coarrays                                                    	PASS		PASS
+coarray_2.4.7.6     	similar translation of co-subscripts and subscripts                   	PASS		PASS
+coarray_4.8.R468    	reference of coarray without [] implies local object                  	PASS		PASS
+coarray_5.3.6.1     	attribute CODIMENSION + remote accesses at single integer/real boundary	PASS		PASS
+derived_4.5.4       	(non-)coarray COMPONENTS of (non-)coarray derived types               	PASS		PASS
+dummyargs_12.3.2.2c 	explicit shape, assumed size, assumed shape, allocatable dummy args   	PASS		PASS
+intrin_13.7.126     	NUM_IMAGES() returns the number of images launched                    	PASS		PASS
+intrin_13.7.165     	THIS_IMAGE(), THIS_IMAGE(coarray), THIS_IMAGE(coarray, dim)           	PASS		PASS
+intrin_13.7.172     	LCOBOUND(coarray) and LCOBOUND(coarray,dim)                           	PASS		PASS
+intrin_13.7.79      	IMAGE_INDEX(coarray, subs)                                            	PASS		PASS
+intrin_13.7.91      	UCOBOUND(COARRAY[, DIM, KIND])                                        	PASS		PASS
+intrin_6.7.3.2.11   	ALLOCATE and DEALLOCATE act as barriers                               	PASS		PASS
+item_4.8.a          	Subobjects of a coarray is also a coarray                             	PASS		PASS
+pointer_4.5.4.6b    	association of pointer components of coarrays with local objects      	PASS		PASS
+
+TOTAL TESTS=14
+
+----------- CAF CROSS-CHECKED FEATURE TESTS --------------
+Evaluating uhcaf
+SPEC_IDX          	DESCRIPTION                                                 	COMPILATION	EXECUTION	CROSS CHECK
+
+atomic_8.5.2      	Atomic subroutines                                          	PASS           	FAIL           	--        
+critical_8.1.5    	CRITICAL - END CRITICAL sections                            	PASS           	PASS           	Passed: 3/ 3
+intrin_8.5.6.2    	LOCK & UNLOCK without STAT specifier                        	PASS           	PASS           	Passed: 3/ 3
+sync_8.5.3        	SYNC ALL without STAT specifier                             	PASS           	PASS           	Passed: 3/ 3
+sync_8.5.4a       	SYNC IMAGES(arr) paired with SYNC IMAGES(*)                 	PASS           	PASS           	Passed: 3/ 3
+sync_8.5.4b       	call to SYNC IMAGES(arr), should not behave like SYNC ALL   	PASS           	PASS           	Passed: 3/ 3
+
+----------------------- CAF STATUS TESTS --------------------------
+Evaluating uhcaf
+SPEC_IDX            	DESCRIPTION                                                           	COMPILATION	EXECUTION
+
+intrin_8.5.6.3a     	LOCK with ACQUIRED_LOCK=.TRUE.                                        	PASS           	PASS           
+intrin_8.5.6.3b     	LOCK with ACQUIRED_LOCK=.FALSE.                                       	PASS           	PASS           
+intrin_8.5.7d       	LOCK construct with STAT=STAT_LOCKED specifier                        	PASS           	FAIL           
+intrin_8.5.7e       	LOCK construct with STAT=STAT_LOCKED_OTHER_IMAGE specifier            	PASS           	FAIL           
+intrin_8.5.7f       	UNLOCK construct with STAT=STAT_UNLOCKED specifier                    	PASS           	FAIL           
+sync_8.5.7a         	SYNC ALL with STAT=STAT_STOPPED_IMAGE specifier                       	PASS           	PASS           
+sync_8.5.7b         	SYNC IMAGES(arr) with STAT=STAT_STOPPED_IMAGE specifier               	PASS           	PASS           
+sync_8.5.7c         	SYNC IMAGES(*) with STAT=STAT_STOPPED_IMAGE specifier                 	PASS           	PASS           
+

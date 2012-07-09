@@ -1,0 +1,21 @@
+FC=g95
+CC=gcc
+NHASH=160000
+CFLAGS=-D NHASH=$(NHASH)
+FFLAGS=-cpp -DNHASH=$(NHASH) -O3
+
+# link the files
+all: cafhash.o hashobj.o
+	$(FC) $(FFLAGS) cafhash.o hashobj.o -o cafhash-$(NHASH)
+	rm *.o
+
+# compile commands
+cafhash.o: cafhash.F90
+	$(FC) $(FFLAGS) -c cafhash.F90
+
+hashobj.o: hashobj.c
+	$(CC) $(CFLAGS) -c hashobj.c
+
+.PHONY:clean
+clean:
+	-rm -f cafhash-*

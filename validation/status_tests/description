@@ -1,0 +1,11 @@
+-----------------------------------------------------------------------------
+FILENAME                    DESCRIPTION
+-----------------------------------------------------------------------------
+sync_8.5.7a.f90             SYNC ALL with STAT=STAT_STOPPED_IMAGE specifier
+sync_8.5.7b.f90             SYNC IMAGES(arr) with STAT=STAT_STOPPED_IMAGE specifier
+sync_8.5.7c.f90             SYNC IMAGES(*) with STAT=STAT_STOPPED_IMAGE specifier
+intrin_8.5.7d.f90           LOCK construct with STAT=STAT_LOCKED specifier
+intrin_8.5.7e.f90           LOCK construct with STAT=STAT_LOCKED_OTHER_IMAGE specifier
+intrin_8.5.7f.f90           UNLOCK construct with STAT=STAT_UNLOCKED specifier
+intrin_8.5.6.3a.f90         LOCK with ACQUIRED_LOCK=.TRUE.
+intrin_8.5.6.3b.f90         LOCK with ACQUIRED_LOCK=.FALSE.

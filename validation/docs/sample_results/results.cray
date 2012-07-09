@@ -1,0 +1,44 @@
+---------------HPC Tools CAF FEATURE testsuite---------------
+Evaluating Cray
+SPEC_IDX                ;DESCRIPTION                                                             ;COMPILATION     ;EXECUTION
+
+character_test          ;CHARACTER coarrays                                                      ;PASS            ;PASS
+coarray_2.4.7.6         ;similar translation of co-subscripts and subscripts                     ;PASS            ;PASS
+coarray_4.8.R468        ;reference of coarray without [] implies local object                    ;PASS            ;PASS
+coarray_5.3.6.1         ;attribute CODIMENSION + remote accesses at single integer/real boundary ;PASS            ;PASS
+derived_4.5.4           ;(non-)coarray COMPONENTS of (non-)coarray derived types                 ;PASS            ;PASS
+dummyargs_12.3.2.2c     ;explicit shape, assumed size, assumed shape, allocatable dummy args     ;PASS            ;PASS
+intrin_13.7.126         ;NUM_IMAGES() returns the number of images launched                      ;PASS            ;PASS
+intrin_13.7.165         ;THIS_IMAGE(), THIS_IMAGE(coarray), THIS_IMAGE(coarray, dim)             ;PASS            ;PASS
+intrin_13.7.172         ;LCOBOUND(coarray) and LCOBOUND(coarray,dim)                             ;PASS            ;PASS
+intrin_13.7.79          ;IMAGE_INDEX(coarray, subs)                                              ;PASS            ;PASS
+intrin_13.7.91          ;UCOBOUND(COARRAY[, DIM, KIND])                                          ;PASS            ;PASS
+intrin_6.7.3.2.11       ;ALLOCATE and DEALLOCATE act as barriers                                 ;PASS            ;PASS
+intrin_8.5.7d           ;STOP and LOCK construct with STAT=STAT_LOCKED specifier                 ;PASS            ;FAIL
+intrin_8.5.7e           ;STOP and LOCK construct with STAT=STAT_LOCKED_OTHER_IMAGE specifier     ;PASS            ;TIMEOUT
+intrin_8.5.7f           ;STOP and LOCK construct with STAT=STAT_UNLOCKED specifier               ;PASS            ;FAIL
+item_4.8.a              ;Subobjects of a coarray is also a coarray                               ;PASS            ;PASS
+pointer_4.5.4.6b        ;association of pointer components of coarrays with local objects        ;PASS            ;PASS
+
+
+---------------HPC Tools CAF CROSS-CHECKED FEATURE testsuite---------------
+Evaluating Cray
+
+SPEC_IDX                ;DESCRIPTION                                                     ;COMPILATION     ;EXECUTION 
+
+atomic_8.5.2            ;Atomic subroutines                                              ;PASS            ;PASS       
+critical_8.1.5          ;CRITICAL - END CRITICAL sections                                ;PASS            ;FAIL       
+intrin_8.5.6            ;LOCK & UNLOCK without STAT specifier                            ;PASS            ;PASS       
+sync_8.5.3              ;SYNC ALL without STAT specifier                                 ;PASS            ;PASS       
+sync_8.5.4a             ;SYNC IMAGES(arr) paired with SYNC IMAGES(*)                     ;PASS            ;PASS       
+sync_8.5.4b             ;call to SYNC IMAGES(arr), should not behave like SYNC ALL       ;PASS            ;PASS       
+
+
+---------------HPC Tools CAF STATUS testsuite---------------
+Evaluating Cray
+SPEC_IDX                DESCRIPTION                                                             COMPILATION     EXECUTION
+
+sync_8.5.7a             STOP and SYNC ALL with STAT=STAT_STOPPED_IMAGE specifier                PASS            FAIL
+sync_8.5.7b             STOP and SYNC IMAGES(arr) with STAT=STAT_STOPPED_IMAGE specifier        PASS            PASS
+sync_8.5.7c             STOP and SYNC IMAGES(*) with STAT=STAT_STOPPED_IMAGE specifier          PASS            PASS
+

@@ -1,0 +1,22 @@
+FC=uhcaf
+CC=gcc
+NHASH=40000
+CFLAGS=-D NHASH=$(NHASH)
+FFLAGS=-O3 -D NHASH=$(NHASH) -ftpp -DPROGRESS_BAR
+#FFLAGS+= -D USE_AMO
+
+# link the files
+all: cafhash.o hashobj.o
+	$(FC) $(FFLAGS) cafhash.o hashobj.o -o cafhash-$(NHASH)
+	rm *.o
+
+# compile commands
+cafhash.o: cafhash.F90
+	$(FC) $(FFLAGS) -c cafhash.F90
+
+hashobj.o: hashobj.c
+	$(CC) $(CFLAGS) -c hashobj.c
+
+.PHONY:clean
+clean:
+	-rm -f cafhash-*

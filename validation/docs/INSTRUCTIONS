@@ -1,0 +1,398 @@
+CAF Validation Test Suite - Instructions
+
+Last modified: 17th July, 2014
+HPCTools Group, University of Houston
+
+This document details instruactions on configuring and running the validation
+test suite. It also lists the different types of validation test codes and some
+of the design rationale.  The directory structure of this test suite is also
+presented at the end. Results of validation some CAF compiler implementations (
+like OpenUH(v3.0.x), Cray, Intel(v13.1), and G95(v0.93)) can be found in the
+file - validation_results.pdf
+
+===============================================================================
+
+Contents
+
+I.   Using the Validation Test Suite
+I.a  Configuring
+I.b  Running
+
+II.  Classification of tests
+II.a    Feature tests
+II.b    Cross-checked Feature tests
+II.c    Status tests
+II.d    Specific tests
+
+III. Directory structure
+
+===============================================================================
+
+I. Using the Validation Test Suite
+
+-------------------------------------------------------------------------------
+
+I.a Configuring
+
+- The test suite can be configured to be used with different
+  compilers, optimization flags, number of iterations, number of
+  processes (images), time-out intervals, etc. by modifying the
+  CONFIG-validation file under $SUITE_ROOT/config (see configuration variables
+  described below).
+
+- The list of configuration parameters, their description follow. The table
+  also depicts whether the values of the parameters are specific to CAF
+  compiler implementations or not.
+
+-------------------------------------------------------------------------------
+                        CONFIG-validation
+-------------------------------------------------------------------------------
+       Parameters           |               Description
+----------------------------|--------------------------------------------------
+NPROCS                      |  Number of images to launch
+                            |
+NITER                       |  Number of times the test is repeated
+                            |
+SLEEP                       |  This is used to intentionally slow down certain
+                            |  images to introduce different progress rates
+                            |
+TIMEOUT                     |  This parameter is used to assign a maximum time-
+                            |  to an image to complete execution.
+                            |
+FFLAGS_VALIDATION_DEFS      |  Preprocessor definitions to pass in to the Fortran
+                            |  compiler
+-------------------------------------------------------------------------------
+
+
+-------------------------------------------------------------------------------
+                        CONFIG-compiler.<COMPILER>
+-------------------------------------------------------------------------------
+       Parameters           |               Description
+----------------------------|--------------------------------------------------
+COMPILER                    | Name of CAF Implementation being tested
+                            |
+FC                          | Command to invoke the compiler
+                            |
+FFLAGS                      | Flags to use for all Fortran compilations
+                            |
+LAUNCHER                    | Name of the launcher program, with launcher,
+                            | options, if applicable.
+                            |
+EXEC_OPTIONS                | Flags that should be passed after the executable name
+                            | while launching multiple images, if applicable
+-------------------------------------------------------------------------------
+
+
+-------------------------------------------------------------------------------
+
+I.b  Running
+
+- The validation test suite can be run either from the root of the entire
+  testsuite or from within the folder - $SUITE_ROOT/validation.
+
+- If run from $SUITE_ROOT, USAGE: make validation PARAMS=<OPTIONS>
+- If run form $SUITE_ROOT/validation, USAGE: make <OPTIONS>
+
+Where OPTIONS is one of the following:
+|
+|_ all:                     all validation tests
+|_ feature:                 tests the compiler's feature support (excludes tests that include verification)
+|_ fewtests:                tests only those listed in the file test_file under ./few_tests directory
+|_ crosschecked_feature:    performs cross-testing to test support for non-deterministic features
+|_ status:                  tests for verifying handling of status returned by certain statemnets
+|_ clean<suite>:            Cleans executables
+|_ cleanall:                Cleans everything - results, tests-history, compiler-logs, runtime-logs
+
+And <suite> = fewtests | feature | crosschecked_feature | status
+
+
+===============================================================================
+
+II.  Classification of tests
+
+-------------------------------------------------------------------------------
+
+II.a    Feature tests
+
+- These can be found under validation/feature_tests
+- These tests verify the support of compiler implementations of the major
+  coarray features
+- Format of test-file name:
+  <feature-name-section_number_in_std>.f90
+
+- The detailed descriptions of each of the tests (arranged alphabetically)
+  follow:
+
+
+** character_test.f90:
+This tests for the support of character coarrays. The following subtle
+difference must be noted between strings in Fortran and C:
+
+-- In Fortran:
+character         :: a(4) ! array of 4 strings of size 1 each
+character (len=2) :: a(4) ! array of 4 strings of size 2 each
+character         :: a    ! string of size 1
+character (len=2) :: a    ! string of size 2
+
+-- In C:
+/* a pointer to a character which can potentially expand to a
+   large buffer of consecutive characters */
+char* a;
+
+/* a string/array of 4 characters The manner in which remote
+   data transfers are handled within the compiler will be
+   slightly different when the coarrays are of CHARACTER data
+   type.  */
+char a[4];
+
+** coarray_2.4.7.6.f90:
+This test checks the that the cosubscript list determines the image index in
+the same way that a subscript list determines the subscript order value of an
+array element.
+
+
+** coarray_4.8.R468.f90:
+reference of coarray without [] implies local object
+
+
+** coarray_5.3.6.1.f90:
+use of attribute CODIMENSION to declare coarrays
+
+** derived_4.5.4.f90:
+Ultimate components of a derived type that are of intrinsic type or ALLOCATABLE
+or POINTER attribute + ultimate components that are of derived type and have
+neither the ALLOCATABLE nor the POINTER components
+
+
+**dummyargs_12.3.2.2c.f90:
+explicit shape, assumed size, assumed shape, allocatable dummy arguments
+
+
+** intrin_13.007.126.f90:
+NUM_IMAGES() returns the number of images launched
+
+
+** intrin_13.7.165.f90:
+THIS_IMAGE(), THIS_IMAGE(coarray), THIS_IMAGE(coarray, dim)
+
+
+** intrin_13.7.172.f90:
+LCOBOUND(coarray) and LCOBOUND(coarray,dim)
+
+
+** intrin_13.7.79.f90
+IMAGE_INDEX(coarray, subs)
+
+
+** intrin_13.7.91.f90
+UCOBOUND(COARRAY[, DIM, KIND])
+
+
+** intrin_6.7.3.2.11.f90
+ALLOCATE and DEALLOCATE act as barriers
+
+
+** item_4.8.a.f90
+subobjects if a coarray is also a coarray
+
+
+** pointer_4.5.4.6b.f90:
+association of pointer components of coarrays with local objects
+
+-------------------------------------------------------------------------------
+
+II.b    Cross-checked Feature tests
+
+- These can be found under validation/crosschecked_feature_tests
+
+- These tests verify the support of compiler implementations of the
+  synchronization constructs to ensure memory consistency for CAF programs the
+  major coarray features
+
+- All tests in this category verify CAF constructs that avoid race conditions.
+  The tests include calls to the sleep() intrinsic for introducing delays in
+  some images to enforce a certain level of determinism. This is essential for
+  testing the different features as listed below,
+
+- Design of the tests:
+    - Every test had a cross test. The cross test verifies whether the
+      introduction of sleep() calls introduces the races. The tests DO NOT
+      include the CAF contruct / statement being tested.  (The macro CROSS_
+      is used to exclude these contructs)
+    - Every test includes a module called 'crosstest'.
+    - The module 'crosstest' (defined in file testmofule.f90) includes the
+      declaration of an integer coscalar called 'cross_err' which is modified
+      by every image that detects an error(the usage differs for different
+      tests as explained below).  It also contains two subroutines - calc_ori
+      and calc. The former returns the test result of the feature being tested.
+      The latter determines the number of times the CAF construct
+      implementation passes the cross-check tests.
+
+- Note for suite-developers:
+    - The original tests (with the CAF constructs) are compiled as:
+        $(FC) $(FFLAGS) cross_test_helper.f90 <test.f90>
+
+    - The cross tests (without the CAF constructs) are compiled as:
+        $(FC) $(FFLAGS) -DCROSS_ cross_test_helper.f90 <test.f90>
+
+    - Image 1 is chosen as the one whose coarray is accessesed by
+      different images for testing the feature under consideration.
+
+- The detailed descriptions of each of the tests (arranged alphabetically)
+follow:
+
+** atomic_8.5.2.f90:
+atomic_define. It must be noted that atomic operations are defined on an ATOM
+element - only a scalar of ATOMIC kind. In this test the following case is
+created: Every image atomically writes to the remote object - obj[1].  Before
+they write to it, image1 brings a copy of it to its cache(if it has one!).
+After that, it keeps reading the cached version. At this point, all the other
+images, including those outside the node that hosts image 1, atomically writes
+to that object. The correct implementation of this atomic define should ensure
+that image1 invalidates the cache copy of 'obj' and pulls in the updated
+version of the same from the main memory. If it fails to get the old copy, the
+error is reported via cross_err.  -- NOTE: every image writes a number whose
+binary equivalent includes only one of the bits as set(1) and the rest,
+reset(0).  E.g. if two competing images perform a non-atomic write on the same
+location - say ,0010 and 0100 the number might read 0110.  As a test, we check
+whether the 'obj' maintains it property of being a perfect power of '2'.  If
+not, the write was not atomic.
+
+** critical_8.1.5.f90:
+This tests the CRITICAL constructs. The aim of the test is to determine whether
+the CRITICAL stmt blocks other images from entering the CRITICAL section. For
+this purpose, image 1 is given a head start and is allowed to enter the
+section. The image1 one then sleeps for a few seconds giving the other images
+an opportunity to break into the section in case of incorrect implementation of
+the CRITICAL statement. If other images enter the section, they read the
+unchanged value of 'num' on image1 and records the error in 'cross_err'.
+
+** intrin_8.5.6.f90:
+This tests the LOCK - UNLOCK constructs. The aim is to test
+whether the LOCK stmt blocks other imags when already acquired.
+Image-1 is given a head-start and acquires the lock. on Acquiring the lock,
+image1 sleeps for a while. If the LOCK constructu is correctly implemented,
+other images overwrites on 1's 'num' coarray. On retrn from sleep() image 1
+checks whether its 'num' is untouched or not. If not, it records the error in
+'cross_err'.
+
+
+** sync_8.5.3.f90:
+This tests for SYNC ALL image control stmt. The aim of the test is to verify
+the barrier-like behavior by the SYNC ALL contruct.  Before writing to its
+'num' coarray, image1 sleeps. If the SYNC stmt does not act as a barrier, other
+images bypass it and read a zeroed num[1] and records the error in 'cross_err'.
+If the SYNC ALL statement is correctly implemented, all the other images wait
+at the barrier till image1 writes to its 'num' before joining others at the
+snchronization contruct.
+
+
+** The test case for SYNC IMAGES is subdivided into 2 parts:
+
+**a. sync_8.5.4a.f90:
+This tests for the correct working of SYNC IMAGES(*) executed by image1. The
+aim is to determine whether other images block till the images being waited on
+call SYNC IMAGES(*). Image-1 sleeps for a while before modifying its 'num'
+coarray. All the other images expect to see the modified 'num[1]' after
+executing SYNC IMAGES(ARR). If the modified data object on image1 is still not
+accessible, then the other images record the error in 'cross_err'.
+
+**b. sync_8.5.4b.f90:
+In this case, image-2 executes SYNC IMAGES(*). All other images execute SYNC
+IMAGES(ARR), where ARR in a rank-one array with 1 element - 2.The aim of the
+test is to verify whether images executing SYNC IMAGES(ARR) incorrectly
+synchronize with each other. The spec mentions that SYNC IMAGES is not the
+same as SYNC ALL. Image-1 makes a change to its 'num' coarray. If SYNC
+IMAGES(ARR) act as a barrier, the other images(besides 1 and 2) will be able
+to see this modified object. This would imply an inconsistent behavior with
+the standard and the images will record this error in 'cross_err'.
+
+
+-------------------------------------------------------------------------------
+
+II.c    Status tests
+
+- These can be found under validation/status_tests
+
+- These tests verify the support of compiler implementations of
+  the status-querying contructs.
+
+- Format of test-file name:
+  <feature-name-section_number_in_std>.f90
+
+- The detailed descriptions of each of the tests (arranged
+  alphabetically) follows:
+
+** sync_8.5.7a.f90
+
+** sync_8.5.7b.f90
+
+** sync_8.5.7c.f90
+
+
+=================== II(d). SPECIFIC - TESTS ===================
+
+- These can be found under validation/few_tests
+
+- The primary file, 'test_file' contains a list of all the
+  programs that the user wants to run. The file is divided into
+  three sections: 1. CROSSCHECKED FEATURE tests 2. FEATURE tests 3.
+  NON_CONFORMANCE tests
+
+- If one needs to test specific programs that fall under one of
+  these categories, one must ensure that those files must exist
+  under the respective folders and must be mentioned in the
+  correct section in the file './test_file'.
+
+- The results of the tests listed in latest_results.log are all
+  subdivided into the corresponding categories
+
+- NOTE: DO NOT list any tests below the "END-TESTS" line.
+
+===============================================================================
+
+III. Directory Structure
+
+The top level folders are:
+
+1. bin : contains all the binaries of all the tests
+
+2. crosschecked_feature_tests : these are feature tests which use additional
+cross tests to verify determine the number of times the CAF construct passes
+the cross-check tests.
+
+3. config : these contain multiple versions of CONFIG files for different
+compilers, and other defauls parameters including the time-out delay, number
+of iterations, etc.
+
+4. docs : contains this file and:
+
+    4.1 docs/sample_results/results.* : snapshots of validation tests of the
+    OpenUH, Cray, Intel and G95 compilers
+
+    4.2 docs/validation_results.pdf : The purpose of this guide is to help the
+    reader be familiar with the list of configuration parameters, test files,
+    method of verification of the tests, and  results of the some of the
+    different CAF compilers (OpenUH, Intel, G95, and Cray).
+
+5. feature_tests : these are quick tests which verify the implementation of
+CAF features in accordance with the Fortran 2008 standard
+
+6. few_tests : this allows user to compiler specific tests in all the other
+forders and listed in a file called 'test_file' (present in this folder)
+
+7. nonconformance_tests : contains tests which contain codes that DO NOT
+adhere to the Fortran 2008 specification for coarrays. The expectation is that
+the errors should be detected by the compiler or runtime.
+
+8. status_tests : contains tests which contain codes which check for the
+status returned by various CAF statements, and respond accordingly.
+
+-------------------------------------------------------------------------------
+
+Support files include:
+
+cross_test_helper.f90 : this is useful for cross-checked tests. All cross-checked
+tests are linked with the module in this file before loading.
+
+==============================================================================

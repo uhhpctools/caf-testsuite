@@ -1,0 +1,48 @@
+## These variables are needed for the output files and for the naming of graphs.
+## Please set these variables to their appropiate values.
+
+# common vars
+BENCH_PATH=${PWD}
+COMPILE_TESTS="0"
+EXECUTE_TESTS="0"
+BOTH="0"
+PASSED_COUNT=0
+FAILED_COUNT=0
+COMPILE_STATUS="UNKNOWN"
+EXEC_STATUS="UNKNOWN"
+EXEC_OUT="0"
+ROOT=${BENCH_PATH}
+
+
+#user-defined
+DATE=`date +"%m-%d-%y-%T"`
+TIMEOUT=180
+logfile=${DATE}.log
+TESTS_DIR=${ROOT}/src/              # directory for the test codes
+LOG_DIR=${ROOT}/logs/                # directory for the output of the regression
+OUTPUT_DIR=${LOG_DIR}/test_output/   # directory for the output of the compiler/execution
+BIN_DIR=${ROOT}/bin/                # directory for the binaries
+EXEC_OUT_DIR=${OUTPUT_DIR}/latest_execute
+COMP_OUT_DIR=${OUTPUT_DIR}/latest_compile
+HISTORY_OUT_DIR=${OUTPUT_DIR}/history
+NITER=100
+
+# for microbenchmarks
+# NOTE: the tests work with allocated memory heap > 1MB
+BENCH_BINDIR=${BENCH_PATH}/bin
+DATA_PATH=${BENCH_PATH}/data/output
+CAF_PATH=${DATA_PATH}/caf
+INTELCAF_PATH=${DATA_PATH}/intelcaf
+DIAGS_PATH=${BENCH_PATH}/data/diags
+CC=gcc
+LD=gcc
+NPOPT=-n
+
+# The timer we used for this benchmark supports the following architectures :
+#   ARCH_X86
+#   ARCH_X86_64
+#   ARCH_IA64
+#   ARCH_PPC64
+#   ARCH_NONE to use gettimeofday instead
+TIMER_ARCH=ARCH_X86_64
+

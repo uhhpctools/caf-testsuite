@@ -1,0 +1,18 @@
+-----------------------------------------------------------------------------
+FILENAME                    DESCRIPTION
+-----------------------------------------------------------------------------
+atomic_8.5.2.f90            ATOMIC subroutines
+character_test.f90          CHARACTER coarrays
+coarray_2.4.7.6.f90         similar translation of co-subscripts and subscripts
+coarray_4.8.R468.f90        reference of coarray without [] implies local object
+coarray_5.3.6.1.f90         use of attribute CODIMENSION to declare coarrays
+dummyargs_12.3.2.2c.f90     explicit shape, assumed size, assumed shape, allocatable dummy arguments
+intrin_13.7.126.f90         NUM_IMAGES() returns the number of images launched
+intrin_13.7.165.f90         THIS_IMAGE(), THIS_IMAGE(coarray), THIS_IMAGE(coarray, dim)
+intrin_13.7.172.f90         LCOBOUND(coarray) and LCOBOUND(coarray,dim)
+intrin_13.7.79.f90          IMAGE_INDEX(coarray, subs)
+intrin_13.7.91.f90          UCOBOUND(COARRAY[, DIM, KIND])
+intrin_6.7.3.2.11.f90       ALLOCATE and DEALLOCATE act as barriers
+item_4.8.a.f90              subobjects if a coarray is also a coarray
+pointer_4.5.4.6b.f90        association of pointer components of coarrays with local objects
+

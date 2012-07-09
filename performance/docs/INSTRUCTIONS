@@ -1,0 +1,236 @@
+CAF Performance Test Suite Instructions
+
+Last modified: 16th July, 2014
+HPCTools Group, University of Houston
+
+This document describes the method for using the performance test suite and
+the list of (micro-)benchmarks used within the suite.  Some initial
+performance results of some CAF compiler implementations can all be found in
+the file - performance_report.pdf
+
+===============================================================================
+
+Contents
+
+I.  Using the Performance Test Suite
+I.a  Configuring
+I.b  Running
+
+II. CAF Benchmarks
+II.a  Microbenchmarks
+II.b  NAS Parallel Benchmarks
+II.c  Misc. Kernels
+
+===============================================================================
+
+I. Using the Performance Test Suite
+
+-------------------------------------------------------------------------------
+
+I.a Configuring
+
+The performance suite comes bundled along with the validation test suite. It
+is located under: PERFORMANCE_PATH = $SUITE_ROOT/performance where, SUITE_ROOT
+is the parent directory of the entire suite.
+
+The test suite requires the setup of a few configuration parameters. These
+parameters can be divided into two types:
+
+1. Generic parameters: These are testsuite specific parameters which can be
+used to specify the location of the compilation and execution result dumps.
+These are located in $PERFORMANCE_PATH/../config/CONFIG (default values
+pre-set).
+
+The list of parameters are:
+
+------------------------------------------------------------------------------
+Parameter       | Description
+----------------|-------------------------------------------------------------
+DATE            | Format of date. This format is used for naming the result
+                | logs
+                |
+TIMEOUT         | Timeperiod in seconds for timing-out on executions. Any
+                | execution which crosses this limit will be denoted as having
+                | 'timed-out' in the test-results and log files.
+                |
+logfile         | name-format of the log file. These files store the testsuite
+                | results.
+                |
+TESTS_DIR       | Location of the tests
+                |
+LOG_DIR         | location of the log dump
+                |
+OUTPUT_DIR      | Location of the  results of compilation and execution of all
+                | the tests. All the stdout and stderr are stored in
+                | subdirectories in this path.
+                |
+BIN_DIR         | Location of all the executables.
+                |
+EXEC_OUT_DIR    | location of stdout and stderr obtained while execution of
+                | the test-binaries.
+                |
+COMP_OUT_DIR    | location of stdout and stderr obtained during compilation of
+                | the test-files.
+                |
+HISTORY_OUT_DIR | location of all the past compilation/execution results.
+                |
+NITER           | Number of iterations for microbenchmark tests that perform
+                | repeated runs of the paricular communication patterns.
+------------------------------------------------------------------------------
+
+
+2. Compiler-specific: These are compiler dependent parameters and can be used
+to adjust the compiler/execution commands, flags and launcher options.
+These are located in $PEFORMANCE_PATH/../config/CONFIG-compiler.<compiler>.
+
+The  name of the parameters are:
+
+------------------------------------------------------------------------------
+Parameter       | Description
+------------------------------------------------------------------------------
+COMPILER        | Name of the compiler
+                |
+FC              | Executable name of the compiler to launch the compilation
+                |
+FFLAGS          | Commands to be passed to the compiler at command line
+                |
+LAUNCHER        | Command for launching multiple CAF images.
+                |
+EXEC_OPTIONS    | Command-line options to be passed after the executable name
+                | during execution.
+                |
+COMPILE_CMD     | Command format for compilation
+                |
+EXEC_CMD        | Command format for execution
+------------------------------------------------------------------------------
+
+For certain tests, the number of images may be varied for the NPB and kernel tests,
+by changing the corresponding test_*.sh script within the respective directories.
+
+Note: The configuration parameters are mainly self-explanatory. For the sake
+of completeness, we provide a detailed descrition of the same in the file -
+performance_report.pdf within this 'docs' directory.
+
+-------------------------------------------------------------------------------
+
+I.b Running
+
+The performance test suite can be run either from the root of the entire
+testsuite or from within the directory - $SUITE_ROOT/performance.
+
+If run from $SUITE_ROOT:
+
+USAGE: make performance PARAMS=<OPTIONS>
+
+If run form $SUITE_ROOT/performance:
+
+USAGE: make [ <OPTIONS> [COMPILER=uhcaf(default)|ifort|g95] ]
+
+Where OPTIONS can be one of:
+|
+|_ compile_<suite>:      compiles and generates logs for the codes
+|_ run_<suite>:          executes and generates logs for the codes
+|_ complete_<suite>:     executes and generates logs for the codes
+|_ clean<suite>:         cleans up the logs, executables and all previous
+                         history of the regression runs
+
+Note: <suite> = kernels|microbenchmarks|npb|all
+
+===============================================================================
+
+II. CAF Benchmarks
+
+There are three main categories of tests in the test suite. Each category is
+located in a different subdirectory within $PEFORMANCE PATH, and all the tests
+within the same category can be executed using either the single Makefile in
+$PEFORMANCE PATH or individual makefiles within the corresponding
+subdirectories.
+
+-------------------------------------------------------------------------------
+
+II.a Microbenchmarks
+
+These includes simple CAF codes with point to point communications.
+
+The list of test includes:
+
+------------------------------------------------------------------------------
+Test       	| Explanation
+------------------------------------------------------------------------------
+bidirectional   |  Round-Trip benchmark with CAF PUT and GET stmts
+get_bandwidth   |  Bandwidth benchmarks with CAF remote PUT operations
+noncontiguous   |  Latency benchmark with CAF PUT over non-contiguous memory.
+ping_pong       |  Round-Trip benchmark with CAF PUT and GET
+put_latency     |  Latency of CAF PUT operation for 4 bytes
+broadcast       |  Bandwidth test for PUT opertions used for Broadcast
+get latency     |  Latency of CAF GET operation for 4 bytes
+partial_data    |  Latency of CAF PUT operation for noncontiguous local and remote memory
+put_bandwidth   |  Bandwidth benchmarks with CAF remote PUT operations
+reduce          |  SUM Reduction using GET operations.
+------------------------------------------------------------------------------
+
+These are located under: $SUITE_ROOT/performance/microbenchmarks
+
+In order to compile and execute a specific microbenchmark:
+
+1. cd $SUITE_ROOT/microbenchmarks
+
+2. make [ compile|execute|complete|clean|cleanall \
+         [COMPILER=uhcaf(default)|ifort|g95] [TYPE=<test-name>] ]
+
+Where, <test-name> :=  bidirectional|broadcastget_bandwidth|get_latency|
+                       noncontiguous|partial_data|ping_pong|put_bandwidth|
+                       put_latency|reduce
+
+-------------------------------------------------------------------------------
+
+II.b NAS Parallel Benchmarks
+
+These include the CAF versions of the NAS 3.3.1.
+
+The currently supported tests include EP, CG, LU, MG, SP, BT, and FT. The EP,
+CG, MG, LU, and FT benchmarks have been developed at the University of
+Houston. The SP and BT have been developed by the NAS team (thanks are due to
+Haoqiang Jin, NASA).
+
+These are located under: $SUITE_ROOT/performance/NPB3.3-CAF
+
+-------------------------------------------------------------------------------
+
+II.c Misc. Kernels
+
+These includes some standalone CAF kernels.
+
+The current list includes:
+- Buffon Laplace
+- CG Forward Wavefield Update
+- Image Smoothing
+- Insertion sort
+- Insertion sort (using derived types)
+- Matrix Multiplication
+- CAF Distributred Hash Table
+- Synchronization Benchmarks
+
+These are located under: $SUITE_ROOT/kernels
+
+In order to compile and execute a specific kernel:
+1. cd kernels
+2. Usage: make [runtests(default)|<KERNEL>|run_<KERNEL>|clean] [COMPILER=uhcaf(default)|ifort|g95]
+runtests     : compiles and executes all the kernels
+run_<KERNEL> : compiles and executes KERNEL
+
+where <KERNEL> =
+  buffon_laplace|cg_2d|image_smoothing|insertion_sort|insertion_sort_dtype|jacobi|mm|
+  cafhash|syncbench
+
+
+Please ensure:
+- Other test_suite specific parameters are set in ../../config/CONFIG
+- The compiler specific parameters are set in ../../config/CONFIG-compiler.<compiler>
+- The number of images to be used for a specific kernel is set in KERNEL.def
+  within $SUITE_ROOT/kernels/src/KERNEL
+
+Note: There is no need to set the make.def* within  ../../config/CONFIG. They
+are auto-generated by the Makefiles.
+
+==============================================================================

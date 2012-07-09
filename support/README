@@ -1,0 +1,29 @@
+==========================================================================================
+
+This regression suite is divided into two parts:
+1. The performance tests
+2. The validation suite
+
+I. Using the Performance test suite
+The perfomance test suite has 3 parts:
+i. the NAS Parallel benchmarks
+ii. the Microbenchmarks
+iii. the Kernels
+
+$ make <options>
+Where, "options" are:
+
+help: displays this file
+
+compile_<suite>: compiles and generates logs for the codes
+
+run_<suite>: executes and generates logs for the codes
+
+clean_<suite>: cleans up the logs, executables and all previous history of the regression runs
+
+<suite> : [npb | microbenchmarks | kernels]
+
+II. Using the Validation test suite
+... to be implemented ...
+
+==========================================================================================

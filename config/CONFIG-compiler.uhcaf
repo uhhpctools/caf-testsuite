@@ -1,0 +1,11 @@
+## These variables are needed for the output files and for the naming of graphs.
+## Please set these variables to their appropiate values.
+
+#OpenUH CAF Compiler
+COMPILER="uhcaf"
+FC="uhcaf"
+FFLAGS="-ftpp -DCO_REDUCTIONS_SUPPORT"
+LAUNCHER="cafrun -n ${NPROCS} --image-heap=100M"
+EXEC_OPTIONS=""
+
+COMPILE_CMD="${FC} ${FFLAGS} ${FFLAGS_BENCH_DEFS}"

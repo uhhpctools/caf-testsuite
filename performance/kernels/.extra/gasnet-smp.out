@@ -1,0 +1,48 @@
+LIBCAF(IMG 2)[TIME_SUMMARY]:Accumulated Time:
+Total time for INIT: wall-clock=0.031007, CPU= 0.020000
+Total time for READ: wall-clock=0.026315, CPU= 0.050000
+Total time for WRITE: wall-clock=0.000000, CPU= 0.000000
+Total time for SYNC: wall-clock=0.029901, CPU= 0.030000
+
+LIBCAF(IMG 4)[TIME_SUMMARY]:Accumulated Time:
+Total time for INIT: wall-clock=0.031011, CPU= 0.000000
+Total time for READ: wall-clock=0.016928, CPU= 0.030000
+Total time for WRITE: wall-clock=0.000000, CPU= 0.000000
+Total time for SYNC: wall-clock=0.199272, CPU= 0.210000
+
+LIBCAF(IMG 3)[TIME_SUMMARY]:Accumulated Time:
+Total time for INIT: wall-clock=0.031009, CPU= 0.020000
+Total time for READ: wall-clock=0.026754, CPU= 0.030000
+Total time for WRITE: wall-clock=0.000000, CPU= 0.000000
+Total time for SYNC: wall-clock=0.030760, CPU= 0.030000
+
+LIBCAF(IMG 6)[TIME_SUMMARY]:Accumulated Time:
+Total time for INIT: wall-clock=0.030988, CPU= 0.020000
+Total time for READ: wall-clock=0.024883, CPU= 0.070000
+Total time for WRITE: wall-clock=0.000000, CPU= 0.000000
+Total time for SYNC: wall-clock=0.045984, CPU= 0.040000
+
+LIBCAF(IMG 8)[TIME_SUMMARY]:Accumulated Time:
+Total time for INIT: wall-clock=0.031011, CPU= 0.010000
+Total time for READ: wall-clock=0.017012, CPU= 0.010000
+Total time for WRITE: wall-clock=0.000000, CPU= 0.000000
+Total time for SYNC: wall-clock=0.216389, CPU= 0.200000
+
+LIBCAF(IMG 5)[TIME_SUMMARY]:Accumulated Time:
+Total time for INIT: wall-clock=0.030999, CPU= 0.010000
+Total time for READ: wall-clock=0.017382, CPU= 0.020000
+Total time for WRITE: wall-clock=0.000000, CPU= 0.000000
+Total time for SYNC: wall-clock=0.202541, CPU= 0.210000
+
+LIBCAF(IMG 7)[TIME_SUMMARY]:Accumulated Time:
+Total time for INIT: wall-clock=0.031009, CPU= 0.010000
+Total time for READ: wall-clock=0.024898, CPU= 0.030000
+Total time for WRITE: wall-clock=0.000000, CPU= 0.000000
+Total time for SYNC: wall-clock=0.033590, CPU= 0.010000
+
+LIBCAF(IMG 1)[TIME_SUMMARY]:Accumulated Time:
+Total time for INIT: wall-clock=0.030973, CPU= 0.020000
+Total time for READ: wall-clock=0.018583, CPU= 0.030000
+Total time for WRITE: wall-clock=0.000000, CPU= 0.000000
+Total time for SYNC: wall-clock=0.208170, CPU= 0.170000
+

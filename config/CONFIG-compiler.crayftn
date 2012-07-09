@@ -1,0 +1,10 @@
+## Please set these variables to their appropiate values.
+
+#Cray CAF Compiler
+COMPILER="crayftn"
+FC="ftn"
+FFLAGS=" -F "
+LAUNCHER="aprun -n ${NPROCS}"
+EXEC_OPTIONS=""
+
+COMPILE_CMD="${FC} ${FFLAGS} ${FFLAGS_BENCH_DEFS}"

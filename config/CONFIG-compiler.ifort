@@ -1,0 +1,11 @@
+## These variables are needed for the output files and for the naming of graphs.
+## Please set these variables to their appropiate values.
+
+##Intel CAF Compiler
+COMPILER="ifort"
+FC="ifort"
+FFLAGS="-coarray -coarray-num-images=${NPROCS} -fpp "
+LAUNCHER=""
+EXEC_OPTIONS=""
+
+COMPILE_CMD="${FC} ${FFLAGS} ${FFLAGS_BENCH_DEFS}"

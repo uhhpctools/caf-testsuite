@@ -1,0 +1,10 @@
+atomic_8.5.2.f90  Atomic subroutines
+-----------------------------------------------------------------------------
+FILENAME                    DESCRIPTION
+-----------------------------------------------------------------------------
+critical_8.1.5.f90          CRITICAL - END CRITICAL sections
+intrin_8.5.6.2.f90            LOCK & UNLOCK without STAT specifier
+sync_8.5.3.f90              SYNC ALL without STAT specifier
+sync_8.5.4a.f90             SYNC IMAGES(arr) paired with SYNC IMAGES(*)
+sync_8.5.4b.f90             call to SYNC IMAGES(arr), should not behave like SYNC ALL
+
