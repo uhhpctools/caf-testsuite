@@ -662,7 +662,7 @@ c---------------------------------------------------------------------
       if (timers_enabled) call timer_start(T_transxzglo)
 
       ! does an alltoall for all images in the same row (me1)
-      sync images ( row_images )
+      sync images ( [row_images] )
 
       do i = 1, np2
         q           = mod(me2+i,np2)
@@ -673,7 +673,7 @@ c---------------------------------------------------------------------
         xout(start_recv:end_recv)[me1,q] = xin(start_send:end_send)
       end do
 
-      sync images ( row_images )
+      sync images ( [row_images] )
 
       if (timers_enabled) call timer_stop(T_transxzglo)
 
@@ -830,7 +830,7 @@ c---------------------------------------------------------------------
       if (timers_enabled)call timer_start(T_transxzglo)
 
       ! does an alltoall for all images in the same row (me1)
-      sync images ( row_images )
+      sync images ( [row_images] )
 
       do i = 1, np2
         q           = mod(me2+i,np2)
@@ -841,7 +841,7 @@ c---------------------------------------------------------------------
         xout(start_recv:end_recv)[me1,q] = xin(start_send:end_send)
       end do
 
-      sync images ( row_images )
+      sync images ( [row_images] )
 
       if (timers_enabled) call timer_stop(T_transxzglo)
       return
@@ -977,7 +977,7 @@ c do transpose among all processes with same 2-coord (me2)
 c---------------------------------------------------------------------
       if (timers_enabled) call timer_start(T_transxyglo)
       ! does an alltoall for all images in the same column (me2)
-      sync images ( col_images )
+      sync images ( [col_images] )
       do i = 1, np1
         q           = mod(me1+i,np1)
         start_send  = (d1*d2*d3/np1)*(q)+1
@@ -986,7 +986,7 @@ c---------------------------------------------------------------------
         end_recv    = (d1*d2*d3/np1)*(me1+1)
         xout(start_recv:end_recv)[q,me2] = xin(start_send:end_send)
       end do
-      sync images ( col_images )
+      sync images ( [col_images] )
 
       if (timers_enabled) call timer_stop(T_transxyglo)
 
