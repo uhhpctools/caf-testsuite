@@ -72,6 +72,6 @@ cleanmicrobenchmarks:
 	$(MAKE) -C $(MICROBENCH_PATH) cleanall
 
 cleannpb:
-	$(MAKE) -C $(NPB_PATH) clean
+	$(MAKE) -C $(NPB_PATH) veryclean
 
 clean cleanall: cleanperformance

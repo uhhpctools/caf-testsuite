@@ -17,7 +17,7 @@ EXEC_OUT="0"
 
 
 if [ "$1" == "cleanall" ]; then
-    rm -rf $LOG_DIR $BIN_DIR
+    rm -rf $LOG_DIR $BIN_DIR/*.*
     exit 0
 fi
 
@@ -55,7 +55,7 @@ else
 fi
 
 # delete past regression results and make folders if needed
-rm -rf $COMP_OUT_DIR $EXEC_OUT_DIR $BIN_DIR
+#rm -rf $COMP_OUT_DIR $EXEC_OUT_DIR $BIN_DIR
 mkdir -p $COMP_OUT_DIR $EXEC_OUT_DIR  $HISTORY_OUT_DIR $BIN_DIR $LOG_DIR
 
 printf '\n%8s %8s %8s %15s %15s %15s %25s \n' "<NAME>" "<CLASS>" "<NPROCS>" "<COMPILATION>" "<EXECUTION>" "<RESULT>" "<TIME(secs)>" | tee -a $LOG_DIR/$logfile
@@ -98,6 +98,14 @@ do
                 else
                     COMPILE_STATUS="FAIL"
                 fi
+            elif [ "$EXECUTE_TESTS" -eq "1" -a ! -f $BIN_DIR/$opfile ]; then
+                make clean &>/dev/null
+                COMPILE_OUT=`make $BM NPROCS=$NP CLASS=$CLASS COMPILER=$compiler >>$COMP_OUT_DIR/$opfile.compile 2>&1 && echo 1 || echo -1`
+                if [ "$COMPILE_OUT" == "1" ]; then
+                    COMPILE_STATUS="PASS"
+                else
+                    COMPILE_STATUS="FAIL"
+                fi
             fi
 
             printf '%15s ' "$COMPILE_STATUS"  | tee -a $LOG_DIR/$logfile
@@ -105,6 +113,7 @@ do
             if [ "$EXECUTE_TESTS" -eq "1" -o "$BOTH" -eq "1" ]; then           #execution enabled
                 VERIFICATION="N/A"
                 TIME="--"
+                #echo "binary is ", $BIN_DIR/$opfile, "current directory is ", $PWD
                 if [ -f  $BIN_DIR/$opfile ]; then  #compilation passed
 
                     # While using the Intel compiler, the number of images
