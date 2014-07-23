@@ -119,6 +119,7 @@
         integer :: rec_index, wUbound=width, wLbound, localWidth, columnIndex=1
         integer :: labels(2048,512)[*]!Change here
         integer :: ticks, start_time, end_time, rate
+        integer :: length
 
         thisImage = this_image()
 
@@ -131,12 +132,12 @@
           stop
         end if
 
-        print *, "labels(100:200, 10) = ", labels(100:200,10)
 
 
          ! READ IMAGE FROM FILE
+         inquire (iolength=length) labels(:,1)
          open (1, file='input_data/inlabels_2048.bdf', FORM='unformatted', &
-         & access='direct', recl=height*sizeof(height))
+         & access='direct', recl=length)
 
          do rec_index=wLbound,wUbound
              read (1, rec=rec_index) labels(:,columnIndex)
@@ -144,6 +145,10 @@
          end do
          close(1)
          !END READ IMAGE FROM FILE
+
+         if (thisImage == 1) then
+           print *, "Input read. Starting image smoothing ..."
+         end if
 
         !DO SMOOTHING
         sync all
@@ -153,12 +158,14 @@
         sync all
         call system_clock(end_time)
 
-        print '("Image:",i2,"-> Time = ",f6.3," seconds.")',this_image(),t_stop - t_start
         !END DO SMOOTHING
 
 
       if (thisImage == 1) then
          !WRITE IMAGE TO FILE
+         if (thisImage == 1) then
+           print *, "Smoothing complete ... writing to outfile"
+         end if
          columnIndex=1
          open (2, file='output_data/outlabels_2048.bdf', FORM='unformatted',&
          & access='direct', recl=height*sizeof(height))!, status='replace')
