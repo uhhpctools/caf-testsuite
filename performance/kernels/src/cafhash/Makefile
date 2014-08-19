@@ -16,7 +16,7 @@ default: clean print_test compile execute
 
 compile $(TEST).x: $(TEST).F90 hashobj.o
 	@echo -e "\nCompiling ... $(COMPILE_CMD) -DNHASH=${NHASH} $(TEST).f90 hashobj.o -o $(TEST).x"
-	@-$(COMPILE_CMD) -DNHASH=${NHASH} $(TEST).F90 hashobj.o -o $(TEST).x | tee $(TEST).compile.out
+	@-$(COMPILE_CMD) -DNHASH=${NHASH} $(TEST).F90 hashobj.o -o $(TEST).x $(LIB_CAF) | tee $(TEST).compile.out
 
 hashobj.o: hashobj.c
 	$(CC) $(CFLAGS) -DNHASH=${NHASH} -c hashobj.c

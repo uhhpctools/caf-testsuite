@@ -14,7 +14,7 @@ default: clean print_test compile execute
 
 compile $(TEST).x: $(TEST).f90
 	@echo -e "\nCompiling ... $(COMPILE_CMD) $(TEST).f90 -o $(TEST).x"
-	@-$(COMPILE_CMD) $(TEST).f90 -o $(TEST).x | tee $(TEST).compile.out
+	@-$(COMPILE_CMD) $(TEST).f90 -o $(TEST).x $(LIB_CAF) | tee $(TEST).compile.out
 
 execute: $(TEST).x
 	@if [ -f $(TEST).x ]; then \

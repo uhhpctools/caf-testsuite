@@ -13,7 +13,7 @@ source $config_file
 config_file="../../config/CONFIG-compiler.${COMPILER}"
 source $config_file
 
-$FC $FFLAGS $FFLAGS_VALIDATION_DEFS  -o  ../bin/$TEST $SOURCE &> $COMPILE_OUTPUT/$SOURCE.out
+$FC $FFLAGS $FFLAGS_VALIDATION_DEFS  -o  ../bin/$TEST $SOURCE $LIB_CAF &> $COMPILE_OUTPUT/$SOURCE.out
 if [ "$?" == "0" ]; then
      printf '%s\t\t' "PASS" | tee -a $LOGFILE
      perl ../../support/timedexec.pl $TIMEOUT $LAUNCHER  ../bin/$TEST $EXEC_OPTIONS &>$EXEC_OUTPUT/$TEST.out

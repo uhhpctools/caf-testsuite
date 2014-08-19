@@ -13,7 +13,7 @@ source $config_file
 config_file="../../config/CONFIG-compiler.${COMPILER}"
 source $config_file
 
-$FC $FFLAGS $FFLAGS_VALIDATION_DEFS -o  ../bin/$TEST cross_test_helper.o $SOURCE &> $COMPILE_OUTPUT/$SOURCE.out
+$FC $FFLAGS $FFLAGS_VALIDATION_DEFS -o  ../bin/$TEST cross_test_helper.o $SOURCE $LIB_CAF &> $COMPILE_OUTPUT/$SOURCE.out
 ANS="$?"
 if [ "$ANS" == "0" ]; then
      printf '%s\t' "PASS" | tee -a $LOGFILE
@@ -27,7 +27,7 @@ if [ "$ANS" == "0" ]; then
        printf '%15s\t' "PASS"  | tee -a $LOGFILE
 
        # compile the cross test
-       $FC $FFLAGS $FFLAGS_VALIDATION_DEFS -DCROSS_  -o  ../bin/$TEST.cross cross_test_helper.o $SOURCE &>/dev/null
+       $FC $FFLAGS $FFLAGS_VALIDATION_DEFS -DCROSS_  -o  ../bin/$TEST.cross cross_test_helper.o $SOURCE $LIB_CAF &>/dev/null
 
        # run the cross test
        perl ../../support/timedexec.pl $TIMEOUT $LAUNCHER ../bin/$TEST.cross $EXEC_OPTIONS &>./tmp

@@ -80,8 +80,8 @@ if [ "$COMPILE_TESTS" -eq "1" -o "$BOTH" -eq "1" ]; then
        type=`echo $file | awk -F"/" '{print $NF}'`
        opfile=$type.x
        logfile=$DATE.log
-        echo "$COMPILE_CMD  $type $BIN_DIR/rtc.o -o $BIN_DIR/$opfile >>$COMP_OUT_DIR/$opfile.compile"
-        COMPILE_OUT=`$COMPILE_CMD  $type $BIN_DIR/rtc.o -o $BIN_DIR/$opfile >>$COMP_OUT_DIR/$opfile.compile 2>&1 && echo 1 || echo -1`
+        echo "$COMPILE_CMD  $type $BIN_DIR/rtc.o -o $BIN_DIR/$opfile $LIB_CAF >>$COMP_OUT_DIR/$opfile.compile"
+        COMPILE_OUT=`$COMPILE_CMD  $type $BIN_DIR/rtc.o -o $BIN_DIR/$opfile $LIB_CAF  >>$COMP_OUT_DIR/$opfile.compile 2>&1 && echo 1 || echo -1`
         if [ "$COMPILE_OUT" -eq "1" ]; then
           COMPILE_STATUS="PASS"
         else

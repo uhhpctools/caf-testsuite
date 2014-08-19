@@ -45,7 +45,7 @@ tail:
 	   $(eval SPEC_IDX:=$(shell echo "`echo "$^"|sed 's/.f90//'| sed 's/*_//'`"))
 	   $(eval DESCRIPTION:=$(shell echo "`cat description | grep "$^" | sed s/"$^"//`"))
 	   @ printf '%-20s\t%-80s\t' "$(SPEC_IDX)" "$(DESCRIPTION)" | tee -a $(LOGFILE)
-	   @ $(FC) $(FFLAGS) $(FFLAGS_VALIDATION_DEFS)  -o ../$@ $^ 2>$(COMPILE_OUTPUT)/$^.out ;\
+	   @ $(FC) $(FFLAGS) $(FFLAGS_VALIDATION_DEFS)  -o ../$@ $^ $(LIB_CAF) 2>$(COMPILE_OUTPUT)/$^.out ;\
 	     if [ "$$?" == "1" ]; then \
 		     printf '%s\t\t' "PASS" | tee -a $(LOGFILE)  ; \
 			 perl ../../support/timedexec.pl $(TIMEOUT) $(LAUNCHER)  $(BIN_PATH)/$@  2>$(EXEC_OUTPUT)/$@.out ; \

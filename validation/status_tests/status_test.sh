@@ -15,7 +15,7 @@ source $config_file
 
 exec_out="0"
 
-$FC $FFLAGS $FFLAGS_VALIDATION_DEFS -o ../bin/$TEST  $SOURCE &>$COMPILE_OUTPUT/$SOURCE.out
+$FC $FFLAGS $FFLAGS_VALIDATION_DEFS -o ../bin/$TEST  $SOURCE $LIB_CAF &>$COMPILE_OUTPUT/$SOURCE.out
 if [ "$?" == "0" ]; then
 		printf '%-15s\t' "PASS"  | tee -a $LOGFILE
 		for i in {1..$NITER}
