@@ -11,7 +11,7 @@ all help default:
 	@printf '\n\n%10s' "==========================================="
 	@printf '\n%10s\n' "CAF Validation and Performance Test Suites"
 	@printf '%10s\n\n' "==========================================="
-	@printf '%s\n\n%s\n\n' "If the tests are executed from this root directory of the test suite, then:" "USAGE: $(MAKE) performance|validation|clean PARAMS=<OPTIONS> [COMPILER=uhcaf(default)|ifort|g95|crayftn]"
+	@printf '%s\n\n%s\n\n' "If the tests are executed from this root directory of the test suite, then:" "USAGE: $(MAKE) performance|validation|clean PARAMS=<OPTIONS> [COMPILER=uhcaf(default)|ifort|g95|gnu|crayftn]"
 	@printf '%s\n' "Examples:"
 	@printf '%s\n' "  make validation                                       # to see options for running validation tests"
 	@printf '%s\n' "  make validation PARAMS=all COMPILER=uhcaf             # run all the validation tests"

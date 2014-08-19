@@ -34,7 +34,7 @@ if [ $# == 2 ]; then
   else
   echo -e "USAGE: test_npb.sh [mode [compiler] ]\n where "
   echo "           mode     = compile|execute|complete"
-  echo "           compiler = uhcaf|ifort|g95|crayftn"
+  echo "           compiler = uhcaf|ifort|g95|gnu|crayftn"
     exit 1
   fi
 else

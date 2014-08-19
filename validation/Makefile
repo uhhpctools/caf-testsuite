@@ -7,7 +7,7 @@ TEMP_1:=$(shell cd ../config; ./config2makedef.sh; cd -)  # generate make.def fr
 include ../config/make-compiler.$(COMPILER).def  # auto-generated
 
 help :
-	@echo -e "(If test suite is run from within validation directory, then run: $(MAKE) <OPTIONS> [COMPILER=uhcaf(default)|ifort|g95|crayftn])\n\n" "OPTIONS include:"
+	@echo -e "(If test suite is run from within validation directory, then run: $(MAKE) <OPTIONS> [COMPILER=uhcaf(default)|ifort|g95|gnu|crayftn])\n\n" "OPTIONS include:"
 	@printf '%-30s\n'      " |  "
 	@printf '%-30s%-90s\n' " |_ all:" "all validation tests"
 	@printf '%-30s%-90s\n' " |_ fewtests:" "tests only those listed in the file "test_file" under ./few directory"

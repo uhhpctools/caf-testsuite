@@ -12,7 +12,7 @@ RUN_TESTS := $(addprefix run_, $(TESTS))
 default: $(TESTS)
 
 help:
-	@echo "Usage: make [KERNEL|run_KERNEL|runtests|clean] [COMPILER=uhcaf(default)|ifort|g95] "
+	@echo "Usage: make [KERNEL|run_KERNEL|runtests|clean] [COMPILER=uhcaf(default)|ifort|g95|gnu|crayftn] "
 	@echo -e "Where KERNEL is one of:\n\t $(TESTS)"
 	@echo -e "Please ensure:\n The test_suite specific parameters are set in ../../config/CONFIG \n The compiler specific parameters in ../../config/CONFIG-compiler.<compiler> \n"
 	@ echo -e "To set the number of images used while launching a kernel, modify the make.def within the corresponding directory  at kernels/src/KERNEL "

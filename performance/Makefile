@@ -6,7 +6,7 @@ NPB_PATH=./NPB3.3-CAF
 COMPILER?=uhcaf
 
 help default:
-	@printf '\n%10s\n' "(If test suite is run from within performance directory, then run: $(MAKE) [<OPTIONS> [COMPILER=uhcaf(default)|ifort|g95|crayftn]])"
+	@printf '\n%10s\n' "(If test suite is run from within performance directory, then run: $(MAKE) [<OPTIONS> [COMPILER=uhcaf(default)|ifort|g95|gnu|crayftn]])"
 	@printf '%10s\n' "OPTIONS include:"
 	@printf '%-25s%-90s\n' "| "
 	@printf '%-25s%-90s\n' "|_ compile_<suite>:" "compiles and generates logs for the codes"
